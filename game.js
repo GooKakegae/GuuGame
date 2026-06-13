@@ -9,6 +9,9 @@ C.width=GW*SC; C.height=GH*SC;
 cx.imageSmoothingEnabled=false;
 
 // ─── 画面サイズに合わせてcanvasをスケール ────────────────────
+// タッチ端末かどうか判定
+var isMobile = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+
 function resizeCanvas(){
   var scaleX=window.innerWidth  / C.width;
   var scaleY=window.innerHeight / C.height;
@@ -719,7 +722,7 @@ function drawResultUI(){
   txt(msg,GW/2,by+6,12,col,'center');
   txt(sub,GW/2,by+23,6,'#C0B090','center');
   txt(pts,GW/2,by+35,8,col,'center');
-  txt('Zキーで次へ',GW/2,by+46,5,'#706050','center');
+  txt(isMobile?'タップで次へ':'Zキーで次へ',GW/2,by+46,5,'#706050','center');
 }
 
 // ─── Second person peek ──────────────────────────────────────
@@ -759,14 +762,20 @@ function drawTitle(){
   r(22,128,276,104,'#100E08');strokeBox(22,128,276,104,'#504030',1);
   txt('あそびかた',GW/2,132,7,'#C0A870','center');
   txt('物音のヒントから誰が来たか判断！',GW/2,145,5,'#A09080','center');
-  txt('Z → DKへでる（主人か奥さんなら◎）',28,158,5,'#6090E8');
-  txt('X → でない（ゴリラなら◎）',28,168,5,'#E07070');
+  if(isMobile){
+    txt('左タップ → DKへでる（主人・奥さんなら◎）',28,158,5,'#6090E8');
+    txt('右タップ → でない（ゴリラなら◎）',28,168,5,'#E07070');
+  }else{
+    txt('Z → DKへでる（主人か奥さんなら◎）',28,158,5,'#6090E8');
+    txt('X → でない（ゴリラなら◎）',28,168,5,'#E07070');
+  }
   txt('ゴロン成功 = +2点',28,180,5,'#F8D040');
   txt('ゴリラを正しく回避 = +1点',28,190,5,'#80FF80');
   txt('ゴリラに遭遇 = 0点',28,200,5,'#C0C0D0');
   txt('見逃し = -1点',28,210,5,'#FF9090');
   txt('8ラウンド勝負！',GW/2,222,5,'#A09078','center');
-  if(Math.floor(titleT/25)%2===0)txt('Z キーではじめる',GW/2,238,8,'#F8E040','center');
+  var startMsg=isMobile?'タップではじめる':'Z キーではじめる';
+  if(Math.floor(titleT/25)%2===0)txt(startMsg,GW/2,238,8,'#F8E040','center');
   if(just('KeyZ','Space','Enter'))startGame();
 }
 
@@ -787,7 +796,8 @@ function drawGameOver(){
   r(50,66,220,24,'#1A1408');strokeBox(50,66,220,24,'#605030',1);
   txt(rank.t,GW/2,70,9,rank.col,'center');
   drawGuu(GW/2-8,100,rank.st,titleT);
-  txt('Z キーでもう一度',GW/2,155,8,Math.floor(titleT/25)%2===0?'#F8E040':'#C0A820','center');
+  var againMsg=isMobile?'タップでもう一度':'Z キーでもう一度';
+  txt(againMsg,GW/2,155,8,Math.floor(titleT/25)%2===0?'#F8E040':'#C0A820','center');
   if(just('KeyZ','Space','Enter')){gs='title';titleT=0;}
 }
 
