@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>グーちゃんとのすれちがい</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: #1A1410;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 100vh;
+    }
+    #gameCanvas {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      border: 3px solid #5A4030;
+      box-shadow: 0 0 30px rgba(100,60,20,0.6);
+      display: block;
+    }
+    #controls {
+      color: #806050;
+      font-size: 12px;
+      margin-top: 8px;
+      font-family: 'Hiragino Sans', sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas"></canvas>
+  <div id="controls">Z/スペース：でる　　X/バック：でない　　↑↓←→：移動</div>
+  <script src="game.js"></script>
+</body>
+</html>
