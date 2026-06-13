@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>グーちゃんとのすれちがい</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -9,7 +10,8 @@
       background: #1A1410;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      min-height: 100vh;
+      min-height: 100vh; min-height: 100dvh;
+      overflow: hidden;
     }
     #gameCanvas {
       image-rendering: pixelated;
@@ -17,12 +19,22 @@
       border: 3px solid #5A4030;
       box-shadow: 0 0 30px rgba(100,60,20,0.6);
       display: block;
+      /* スマホでは画面幅に合わせて縮小 */
+      max-width: 100vw;
+      max-height: 100dvh;
+      width: auto;
+      height: auto;
+      touch-action: none;
     }
     #controls {
       color: #806050;
       font-size: 12px;
       margin-top: 8px;
       font-family: 'Hiragino Sans', sans-serif;
+    }
+    /* スマホでは操作説明を非表示 */
+    @media (max-width: 680px) {
+      #controls { display: none; }
     }
   </style>
 </head>

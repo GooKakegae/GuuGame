@@ -19,6 +19,25 @@ document.addEventListener('keydown',e=>{
 document.addEventListener('keyup',e=>delete K[e.code]);
 function just(...cs){return cs.some(c=>{const v=!!JP[c];JP[c]=false;return v;});}
 
+// ─── Touch Input ─────────────────────────────────────────────
+C.addEventListener('touchstart',function(e){
+  e.preventDefault();
+  initAudio();
+  var touch=e.touches[0];
+  var rect=C.getBoundingClientRect();
+  // タップ位置をゲーム座標に変換
+  var tx=(touch.clientX-rect.left)/rect.width*GW;
+  var ty=(touch.clientY-rect.top)/rect.height*GH;
+  if(phase==='decide'){
+    // 左半分→でる、右半分→でない
+    if(tx<GW/2) JP['KeyZ']=true;
+    else         JP['KeyX']=true;
+  } else {
+    // それ以外はタップ＝Zキー（決定・次へ）
+    JP['KeyZ']=true;
+  }
+},{passive:false});
+
 // ─── Draw helpers ────────────────────────────────────────────
 const px=v=>v*SC;
 function r(x,y,w,h,c){cx.fillStyle=c;cx.fillRect(px(x),px(y),px(w),px(h));}
@@ -655,14 +674,17 @@ function drawClue(c,idx){
 function drawDecideUI(){
   var by=GH-52;
   r(0,by,GW,52,'#18120C');r(0,by,GW,2,'#504030');
+  // タイマーバー
   var tl=Math.max(0,1-ptimer/150);
   r(0,by+2,GW,5,'#100E08');r(0,by+2,GW*tl,5,tl>0.4?'#50D830':'#E06820');
-  r(8,by+9,144,36,'#182858');strokeBox(8,by+9,144,36,'#3060C0',1.5);
-  r(168,by+9,144,36,'#581818');strokeBox(168,by+9,144,36,'#C03030',1.5);
-  txt('Z でる',38,by+15,9,'#80C0FF');
-  txt('DKへダッシュ',12,by+29,5,'#6090D8');
-  txt('X でない',198,by+15,9,'#FFA0A0');
-  txt('部屋でまつ',172,by+29,5,'#D07070');
+  // 左ボタン（でる）
+  r(4, by+9,152,36,'#182858');strokeBox(4, by+9,152,36,'#3060C0',1.5);
+  // 右ボタン（でない）
+  r(164,by+9,152,36,'#581818');strokeBox(164,by+9,152,36,'#C03030',1.5);
+  txt('👈 でる',  18, by+14, 9,'#80C0FF');
+  txt('タップ/Z', 18, by+29, 5,'#6090D8');
+  txt('でない 👉',176,by+14, 9,'#FFA0A0');
+  txt('タップ/X', 184,by+29, 5,'#D07070');
 }
 
 // ─── Result UI ───────────────────────────────────────────────
