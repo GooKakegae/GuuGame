@@ -8,6 +8,18 @@ const GW=320, GH=272, SC=2;
 C.width=GW*SC; C.height=GH*SC;
 cx.imageSmoothingEnabled=false;
 
+// ─── 画面サイズに合わせてcanvasをスケール ────────────────────
+function resizeCanvas(){
+  var scaleX=window.innerWidth  / C.width;
+  var scaleY=window.innerHeight / C.height;
+  var scale=Math.min(scaleX, scaleY, 1); // 元サイズより大きくはしない
+  C.style.width  = Math.floor(C.width  * scale) + 'px';
+  C.style.height = Math.floor(C.height * scale) + 'px';
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+window.addEventListener('orientationchange', resizeCanvas);
+
 // ─── Input ───────────────────────────────────────────────────
 const K={}, JP={};
 document.addEventListener('keydown',e=>{
